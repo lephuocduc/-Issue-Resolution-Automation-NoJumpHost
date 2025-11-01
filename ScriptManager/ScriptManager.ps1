@@ -32,12 +32,7 @@ Add-Type -AssemblyName System.Drawing
 
 # Import the Get-BitwardenAuthentication module
 Import-Module -Name $PSScriptRoot\Get-BitwardenAuthentication.psm1 -Force
-
-Get-ChildItem -Path (Join-Path $PSScriptRoot "..\Modules") -Filter *.psm1 | ForEach-Object {
-    Import-Module -Name $_.FullName -Force
-    Join-Path $PSScriptRoot "..\Modules\$($_.Name)"
-    Write-Host "Imported module: $($_.Name)"
-}
+Join-Path $PSScriptRoot "..\Modules\"
 
 $modulesToImport = @(
     "$PSScriptRoot\..\Modules\Get-Session.psm1",
