@@ -30,26 +30,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-$ModulesPath = Join-Path -Path $PSScriptRoot -ChildPath "..\Modules\Write-WindowsEventLog.ps1"
-
-if (Test-Path -Path $ModulesPath) {
-    [System.Windows.Forms.MessageBox]::Show(
-        "Modules directory found at $ModulesPath.",
-        "Information",
-        [System.Windows.Forms.MessageBoxButtons]::OK,
-        [System.Windows.Forms.MessageBoxIcon]::Information
-    )
-    throw "Modules directory found at $ModulesPath."
-}else{
-    [System.Windows.Forms.MessageBox]::Show(
-        "Modules directory NOT found at $ModulesPath. Please ensure the Modules folder is in the correct location.",
-        "Error",
-        [System.Windows.Forms.MessageBoxButtons]::OK,
-        [System.Windows.Forms.MessageBoxIcon]::Error
-    )
-    throw "Modules directory not found at $ModulesPath."
-}
-
+. (Join-Path $PSScriptRoot "..\Modules\Get-Session.ps1")
 
 
 # Import the Get-BitwardenAuthentication module
