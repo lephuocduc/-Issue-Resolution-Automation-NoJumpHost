@@ -3,23 +3,23 @@ Param(
     [System.Management.Automation.PSCredential]$ADM_Credential
 )
 
-$modulePath = Join-Path -Path $PSScriptRoot -ChildPath "..\Modules\Write-WindowsEventLog.psm1"
+$modulePath = Join-Path -Path $PSScriptRoot -ChildPath "..\Modules\Write-WindowsEventLog.ps1"
 Write-Host "Module path: $modulePath"
 Test-Path $modulePath
 
 # Import modules
 $modulesToImport = @(
-    "$PSScriptRoot\..\..\Modules\Get-Session.psm1",
-    "$PSScriptRoot\..\..\Modules\Get-DiskSpaceDetails.psm1",
-    "$PSScriptRoot\..\..\Modules\Export-DiskReport.psm1",
-    "$PSScriptRoot\..\..\Modules\Get-TopItems.psm1",
-    "$PSScriptRoot\..\..\Modules\Clear-SystemCache.psm1",
-    "$PSScriptRoot\..\..\Modules\Compress-IISLogs.psm1",
-    "$PSScriptRoot\..\..\Modules\Test-DiskAvailability.psm1",
-    "$PSScriptRoot\..\..\Modules\Test-ReportFileCreation.psm1",
-    "$PSScriptRoot\..\..\Modules\Test-ServerAvailability.psm1",
-    "$PSScriptRoot\..\..\Modules\Write-Log.psm1",
-    "$PSScriptRoot\..\..\Modules\Write-WindowsEventLog.psm1"
+    "$PSScriptRoot\..\..\Modules\Get-Session.ps1",
+    "$PSScriptRoot\..\..\Modules\Get-DiskSpaceDetails.ps1",
+    "$PSScriptRoot\..\..\Modules\Export-DiskReport.ps1",
+    "$PSScriptRoot\..\..\Modules\Get-TopItems.ps1",
+    "$PSScriptRoot\..\..\Modules\Clear-SystemCache.ps1",
+    "$PSScriptRoot\..\..\Modules\Compress-IISLogs.ps1",
+    "$PSScriptRoot\..\..\Modules\Test-DiskAvailability.ps1",
+    "$PSScriptRoot\..\..\Modules\Test-ReportFileCreation.ps1",
+    "$PSScriptRoot\..\..\Modules\Test-ServerAvailability.ps1",
+    "$PSScriptRoot\..\..\Modules\Write-Log.ps1",
+    "$PSScriptRoot\..\..\Modules\Write-WindowsEventLog.ps1"
 )
 
 foreach ($modulePath in $modulesToImport) {
