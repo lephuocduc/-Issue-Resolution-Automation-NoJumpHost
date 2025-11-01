@@ -30,6 +30,9 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+
+. (Join-Path $PSScriptRoot "..\Modules\Write-Log.ps1")
+
 if (Test-Path -Path "$PSScriptRoot\..\Modules\Write-Log.ps1") {
     [System.Windows.Forms.MessageBox]::Show(
             "Information: Found the file",
@@ -37,6 +40,7 @@ if (Test-Path -Path "$PSScriptRoot\..\Modules\Write-Log.ps1") {
             [System.Windows.Forms.MessageBoxButtons]::OK,
             [System.Windows.Forms.MessageBoxIcon]::Information
         )
+        throw "Found the file Modules\Write-Log.ps1"
 }else{
     [System.Windows.Forms.MessageBox]::Show(
             "Error: Could not find the file Modules\Write-Log.ps1",
