@@ -44,6 +44,7 @@ $fullPaths = $ps1Files | ForEach-Object { . (Join-Path $modulesPath $_.Name) }
 # Output the list of full paths
 $fullPaths
 
+. (Join-Path $PSScriptRoot "..\Modules\Get-Session.ps1")
 . "$PSScriptRoot\..\Modules\Get-Session.ps1"
 
 $modulesToImport = @(
