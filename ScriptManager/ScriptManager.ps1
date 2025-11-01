@@ -30,32 +30,27 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-$modulesToImport = @(
-    "$PSScriptRoot\..\Modules\Get-Session.ps1",
-    "$PSScriptRoot\..\Modules\Get-DiskSpaceDetails.ps1",
-    "$PSScriptRoot\..\Modules\Export-DiskReport.ps1",
-    "$PSScriptRoot\..\Modules\Get-TopItems.ps1",
-    "$PSScriptRoot\..\Modules\Clear-SystemCache.ps1",
-    "$PSScriptRoot\..\Modules\Compress-IISLogs.ps1",
-    "$PSScriptRoot\..\Modules\Test-DiskAvailability.ps1",
-    "$PSScriptRoot\..\Modules\Test-ReportFileCreation.ps1",
-    "$PSScriptRoot\..\Modules\Test-ServerAvailability.ps1",
-    "$PSScriptRoot\..\Modules\Write-Log.ps1",
-    "$PSScriptRoot\..\Modules\Write-WindowsEventLog.ps1"
-)
 
-foreach ($modulePath in $modulesToImport) {
-    try {
-        # Use dot-sourcing. This is compatible with the packager.
-        . $modulePath
-        
-        Write-Host "Successfully imported module $([System.IO.Path]::GetFileName($modulePath))" -ForegroundColor Green
-    } catch {
-        Write-Host "Error importing module $modulePath : $_" -ForegroundColor Red
-        [System.Windows.Forms.MessageBox]::Show("Error importing module $([System.IO.Path]::GetFileNameWithoutExtension($modulePath)) : $_", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
-        exit 1
-    }
+$ModulesPath = Join-Path $PSScriptRoot "Modules"
+
+if (Test-Path -Path $ModulesPath) {
+    [System.Windows.Forms.MessageBox]::Show(
+        "Modules directory found at $ModulesPath.",
+        "Information",
+        [System.Windows.Forms.MessageBoxButtons]::OK,
+        [System.Windows.Forms.MessageBoxIcon]::Information
+    )
+}else{
+    [System.Windows.Forms.MessageBox]::Show(
+        "Modules directory NOT found at $ModulesPath. Please ensure the Modules folder is in the correct location.",
+        "Error",
+        [System.Windows.Forms.MessageBoxButtons]::OK,
+        [System.Windows.Forms.MessageBoxIcon]::Error
+    )
+    throw "Modules directory not found at $ModulesPath."
 }
+
+
 
 # Import the Get-BitwardenAuthentication module
 Import-Module -Name $PSScriptRoot\Get-BitwardenAuthentication.psm1 -Force

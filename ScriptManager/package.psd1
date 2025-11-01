@@ -1,10 +1,9 @@
 @{
     Root = '.\ScriptManager\ScriptManager.ps1'
-    Files = @(
-        '.\Modules\*.ps1',
-        '.\Modules\Write-Log.ps1'
-    )
     OutputPath = ''
+    Content = @{
+        '.\Modules' = 'Modules'
+    }
     Package = @{
         Enabled = $true
         Obfuscate = $false
@@ -22,9 +21,5 @@
     Bundle = @{
         Enabled = $true
         Modules = $true
-        Files = @(
-            '.\Modules\*.ps1',
-            '.\Modules\Write-Log.ps1'
-        )
     }
 }
