@@ -1,5 +1,9 @@
 @{
     Root = '.\ScriptManager\ScriptManager.ps1'
+    Files = @(
+        '.\Modules\*.ps1',
+        '.\Modules\Write-Log.ps1'
+    )
     OutputPath = ''
     Package = @{
         Enabled = $true
