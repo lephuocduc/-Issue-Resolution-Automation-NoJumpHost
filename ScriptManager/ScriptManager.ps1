@@ -30,8 +30,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-
-$ModulesPath = Join-Path $PSScriptRoot "Modules"
+$ModulesPath = Join-Path -Path $PSScriptRoot -ChildPath "..\Modules\Write-WindowsEventLog.ps1"
 
 if (Test-Path -Path $ModulesPath) {
     [System.Windows.Forms.MessageBox]::Show(
@@ -40,6 +39,7 @@ if (Test-Path -Path $ModulesPath) {
         [System.Windows.Forms.MessageBoxButtons]::OK,
         [System.Windows.Forms.MessageBoxIcon]::Information
     )
+    throw "Modules directory found at $ModulesPath."
 }else{
     [System.Windows.Forms.MessageBox]::Show(
         "Modules directory NOT found at $ModulesPath. Please ensure the Modules folder is in the correct location.",
