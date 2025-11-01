@@ -34,18 +34,24 @@ Add-Type -AssemblyName System.Drawing
 Import-Module -Name $PSScriptRoot\Get-BitwardenAuthentication.psm1 -Force
 Join-Path $PSScriptRoot "..\Modules\"
 
+Get-ChildItem -Path (Join-Path $PSScriptRoot "..\Modules") -Filter *.ps1 | ForEach-Object {
+    Import-Module -Name $_.FullName -Force
+    Join-Path $PSScriptRoot "..\Modules\$($_.Name)"
+    Write-Host "Imported module: $($_.Name)"
+}
+
 $modulesToImport = @(
-    "$PSScriptRoot\..\Modules\Get-Session.psm1",
-    "$PSScriptRoot\..\Modules\Get-DiskSpaceDetails.psm1",
-    "$PSScriptRoot\..\Modules\Export-DiskReport.psm1",
-    "$PSScriptRoot\..\Modules\Get-TopItems.psm1",
-    "$PSScriptRoot\..\Modules\Clear-SystemCache.psm1",
-    "$PSScriptRoot\..\Modules\Compress-IISLogs.psm1",
-    "$PSScriptRoot\..\Modules\Test-DiskAvailability.psm1",
-    "$PSScriptRoot\..\Modules\Test-ReportFileCreation.psm1",
-    "$PSScriptRoot\..\Modules\Test-ServerAvailability.psm1",
-    "$PSScriptRoot\..\Modules\Write-Log.psm1",
-    "$PSScriptRoot\..\Modules\Write-WindowsEventLog.psm1"
+    "$PSScriptRoot\..\Modules\Get-Session.ps1",
+    "$PSScriptRoot\..\Modules\Get-DiskSpaceDetails.ps1",
+    "$PSScriptRoot\..\Modules\Export-DiskReport.ps1",
+    "$PSScriptRoot\..\Modules\Get-TopItems.ps1",
+    "$PSScriptRoot\..\Modules\Clear-SystemCache.ps1",
+    "$PSScriptRoot\..\Modules\Compress-IISLogs.ps1",
+    "$PSScriptRoot\..\Modules\Test-DiskAvailability.ps1",
+    "$PSScriptRoot\..\Modules\Test-ReportFileCreation.ps1",
+    "$PSScriptRoot\..\Modules\Test-ServerAvailability.ps1",
+    "$PSScriptRoot\..\Modules\Write-Log.ps1",
+    "$PSScriptRoot\..\Modules\Write-WindowsEventLog.ps1"
 )
 
 foreach ($modulePath in $modulesToImport) {
@@ -335,7 +341,6 @@ if ($script:ADM_Credential) {
     # Show the main form after Bitwarden authentication
     $main_form.ShowDialog()
 }
-
 
 
 
