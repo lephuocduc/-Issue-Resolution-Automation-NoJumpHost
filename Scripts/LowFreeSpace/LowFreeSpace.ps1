@@ -3,6 +3,12 @@ Param(
     [System.Management.Automation.PSCredential]$ADM_Credential
 )
 
+# Dynamically load all modules from the Modules directory
+$modulesPath = Join-Path $PSScriptRoot "..\..\Modules"
+Get-ChildItem -Path $modulesPath -Filter *.ps1 | ForEach-Object {
+    . $_.FullName
+}
+<#
 . (Join-Path $PSScriptRoot "..\..\Modules\Get-Session.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Get-DiskSpaceDetails.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Export-DiskReport.ps1")
@@ -14,45 +20,7 @@ Param(
 . (Join-Path $PSScriptRoot "..\..\Modules\Test-ServerAvailability.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Write-Log.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Write-WindowsEventLog.ps1")
-
-<#
-# Import modules
-$modulesToImport = @(
-    "$PSScriptRoot\..\..\Modules\Get-Session.ps1",
-    "$PSScriptRoot\..\..\Modules\Get-DiskSpaceDetails.ps1",
-    "$PSScriptRoot\..\..\Modules\Export-DiskReport.ps1",
-    "$PSScriptRoot\..\..\Modules\Get-TopItems.ps1",
-    "$PSScriptRoot\..\..\Modules\Clear-SystemCache.ps1",
-    "$PSScriptRoot\..\..\Modules\Compress-IISLogs.ps1",
-    "$PSScriptRoot\..\..\Modules\Test-DiskAvailability.ps1",
-    "$PSScriptRoot\..\..\Modules\Test-ReportFileCreation.ps1",
-    "$PSScriptRoot\..\..\Modules\Test-ServerAvailability.ps1",
-    "$PSScriptRoot\..\..\Modules\Write-Log.ps1",
-    "$PSScriptRoot\..\..\Modules\Write-WindowsEventLog.ps1"
-)
-
-foreach ($modulePath in $modulesToImport) {
-    try {
-        # Read the module content
-        $moduleContent = Get-Content -Path $modulePath -Raw
-
-        # Use Invoke-Expression to execute the module content
-        Invoke-Expression -Command $moduleContent
-        Write-Host "Successfully imported module $moduleName in remote session" -ForegroundColor Green
-    } catch {
-        Write-Host "Error importing module $modulePath : $_" -ForegroundColor Red
-        [System.Windows.Forms.MessageBox]::Show("Error importing module $([System.IO.Path]::GetFileNameWithoutExtension($modulePath)) : $_", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
-        exit 1
-    }
-}#>
-
-<#
-# Temporary workaround for testing
-if (-not $ADM_Credential) {
-    $userName = "user1"
-    $password = ConvertTo-SecureString "Leduc123" -AsPlainText -Force
-    $ADM_Credential = New-Object System.Management.Automation.PSCredential($userName, $password)
-}#>
+#>
 
 # Get current user
 $CurrentUser = ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)
