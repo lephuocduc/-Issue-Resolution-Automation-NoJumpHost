@@ -39,6 +39,35 @@ Get-ChildItem -Path (Join-Path $PSScriptRoot "..\Modules") -Filter *.psm1 | ForE
     Write-Host "Imported module: $($_.Name)"
 }
 
+$modulesToImport = @(
+    "$PSScriptRoot\..\Modules\Get-Session.psm1",
+    "$PSScriptRoot\..\Modules\Get-DiskSpaceDetails.psm1",
+    "$PSScriptRoot\..\Modules\Export-DiskReport.psm1",
+    "$PSScriptRoot\..\Modules\Get-TopItems.psm1",
+    "$PSScriptRoot\..\Modules\Clear-SystemCache.psm1",
+    "$PSScriptRoot\..\Modules\Compress-IISLogs.psm1",
+    "$PSScriptRoot\..\Modules\Test-DiskAvailability.psm1",
+    "$PSScriptRoot\..\Modules\Test-ReportFileCreation.psm1",
+    "$PSScriptRoot\..\Modules\Test-ServerAvailability.psm1",
+    "$PSScriptRoot\..\Modules\Write-Log.psm1",
+    "$PSScriptRoot\..\Modules\Write-WindowsEventLog.psm1"
+)
+
+foreach ($modulePath in $modulesToImport) {
+    try {
+        # Read the module content
+        $moduleContent = Get-Content -Path $modulePath -Raw
+
+        # Use Invoke-Expression to execute the module content
+        Invoke-Expression -Command $moduleContent
+        Write-Host "Successfully imported module $moduleName in remote session" -ForegroundColor Green
+    } catch {
+        Write-Host "Error importing module $modulePath : $_" -ForegroundColor Red
+        [System.Windows.Forms.MessageBox]::Show("Error importing module $([System.IO.Path]::GetFileNameWithoutExtension($modulePath)) : $_", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
+        exit 1
+    }
+}
+
 $script:ADM_Credential = $null
 $CurrentUser = ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)
 
