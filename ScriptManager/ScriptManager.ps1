@@ -30,51 +30,20 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+$ModulePath = "$PSScriptRoot\..\Modules\Get-Session.ps1"
+
+# Import the module
+try {
+    Import-Module -Name $ModulePath -ErrorAction Stop
+}
+catch {
+    throw "Failed to import module from path: $ModulePath. Error: $_"
+}
+
 # Import the Get-BitwardenAuthentication module
 Import-Module -Name $PSScriptRoot\Get-BitwardenAuthentication.psm1 -Force
 
-# Join the Modules directory path relative to the current script location
-$modulesPath = Join-Path $PSScriptRoot "..\Modules"
 
-# Get all PS1 files in the Modules directory
-$ps1Files = Get-ChildItem -Path $modulesPath -Filter *.ps1
-
-# If you want to join the path with each PS1 filename (full path)
-$fullPaths = $ps1Files | ForEach-Object { . (Join-Path $modulesPath $_.Name) }
-# Output the list of full paths
-$fullPaths
-
-. (Join-Path $PSScriptRoot "..\Modules\Get-Session.ps1")
-. "$PSScriptRoot\..\Modules\Get-Session.ps1"
-
-$modulesToImport = @(
-    "$PSScriptRoot\..\Modules\Get-Session.ps1",
-    "$PSScriptRoot\..\Modules\Get-DiskSpaceDetails.ps1",
-    "$PSScriptRoot\..\Modules\Export-DiskReport.ps1",
-    "$PSScriptRoot\..\Modules\Get-TopItems.ps1",
-    "$PSScriptRoot\..\Modules\Clear-SystemCache.ps1",
-    "$PSScriptRoot\..\Modules\Compress-IISLogs.ps1",
-    "$PSScriptRoot\..\Modules\Test-DiskAvailability.ps1",
-    "$PSScriptRoot\..\Modules\Test-ReportFileCreation.ps1",
-    "$PSScriptRoot\..\Modules\Test-ServerAvailability.ps1",
-    "$PSScriptRoot\..\Modules\Write-Log.ps1",
-    "$PSScriptRoot\..\Modules\Write-WindowsEventLog.ps1"
-)
-
-foreach ($modulePath in $modulesToImport) {
-    try {
-        # Read the module content
-        $moduleContent = Get-Content -Path $modulePath -Raw
-
-        # Use Invoke-Expression to execute the module content
-        Invoke-Expression -Command $moduleContent
-        Write-Host "Successfully imported module $moduleName in remote session" -ForegroundColor Green
-    } catch {
-        Write-Host "Error importing module $modulePath : $_" -ForegroundColor Red
-        [System.Windows.Forms.MessageBox]::Show("Error importing module $([System.IO.Path]::GetFileNameWithoutExtension($modulePath)) : $_", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
-        exit 1
-    }
-}
 
 $script:ADM_Credential = $null
 $CurrentUser = ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)
