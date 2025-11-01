@@ -18,5 +18,8 @@
     Bundle = @{
         Enabled = $true
         Modules = $true
+        Files = @(
+            '..\Modules\*.ps1'
+        )
     }
 }
