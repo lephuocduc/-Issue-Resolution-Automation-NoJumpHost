@@ -40,8 +40,7 @@ $modulesPath = Join-Path $PSScriptRoot "..\Modules"
 $ps1Files = Get-ChildItem -Path $modulesPath -Filter *.ps1
 
 # If you want to join the path with each PS1 filename (full path)
-$fullPaths = $ps1Files | ForEach-Object { Join-Path $modulesPath $_.Name }
-
+$fullPaths = $ps1Files | ForEach-Object { . (Join-Path $modulesPath $_.Name) }
 # Output the list of full paths
 $fullPaths
 
