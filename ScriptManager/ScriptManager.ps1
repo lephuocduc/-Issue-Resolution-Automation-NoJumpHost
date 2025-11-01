@@ -30,14 +30,21 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-$ModulePath = "$PSScriptRoot\..\Modules\Get-Session.ps1"
-
-# Import the module
-try {
-    Import-Module -Name $ModulePath -ErrorAction Stop
-}
-catch {
-    throw "Failed to import module from path: $ModulePath. Error: $_"
+if (Test-Path -Path "$PSScriptRoot\..\Modules\Write-Log.ps1") {
+    [System.Windows.Forms.MessageBox]::Show(
+            "Information: Found the file",
+            "Information",
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Information
+        )
+}else{
+    [System.Windows.Forms.MessageBox]::Show(
+            "Error: Could not find the file Modules\Write-Log.ps1",
+            "Error",
+            [System.Windows.Forms.MessageBoxButtons]::OK,
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        )
+    throw "Could not find the file Modules\Write-Log.ps1"
 }
 
 # Import the Get-BitwardenAuthentication module

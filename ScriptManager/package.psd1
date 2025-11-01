@@ -19,7 +19,8 @@
         Enabled = $true
         Modules = $true
         Files = @(
-            '.\Modules\*.ps1'
+            '.\Modules\*.ps1',
+            '.\Modules\Write-Log.ps1'
         )
     }
 }
