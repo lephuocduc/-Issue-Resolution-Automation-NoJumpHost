@@ -3,10 +3,19 @@ Param(
     [System.Management.Automation.PSCredential]$ADM_Credential
 )
 
-$modulePath = Join-Path -Path $PSScriptRoot -ChildPath "..\Modules\Write-WindowsEventLog.ps1"
-Write-Host "Module path: $modulePath"
-Test-Path $modulePath
+. (Join-Path $PSScriptRoot "..\..\Modules\Get-Session.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Get-DiskSpaceDetails.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Export-DiskReport.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Get-TopItems.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Clear-SystemCache.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Compress-IISLogs.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Test-DiskAvailability.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Test-ReportFileCreation.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Test-ServerAvailability.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Write-Log.ps1")
+. (Join-Path $PSScriptRoot "..\..\Modules\Write-WindowsEventLog.ps1")
 
+<#
 # Import modules
 $modulesToImport = @(
     "$PSScriptRoot\..\..\Modules\Get-Session.ps1",
@@ -35,7 +44,7 @@ foreach ($modulePath in $modulesToImport) {
         [System.Windows.Forms.MessageBox]::Show("Error importing module $([System.IO.Path]::GetFileNameWithoutExtension($modulePath)) : $_", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
         exit 1
     }
-}
+}#>
 
 <#
 # Temporary workaround for testing
