@@ -6,7 +6,7 @@ Param(
 # Dynamically load all modules from the Modules directory
 $modulesPath = Join-Path $PSScriptRoot "..\..\Modules"
 Get-ChildItem -Path $modulesPath -Filter *.ps1 | ForEach-Object {
-    . $_.FullName
+    . (Join-Path $PSScriptRoot "..\..\Modules\$($_.Name)")
 }
 <#
 . (Join-Path $PSScriptRoot "..\..\Modules\Get-Session.ps1")

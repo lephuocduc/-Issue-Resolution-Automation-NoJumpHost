@@ -1,9 +1,6 @@
 @{
     Root = '.\ScriptManager\ScriptManager.ps1'
     OutputPath = ''
-    Content = @{
-        '.\Modules' = 'Modules'
-    }
     Package = @{
         Enabled = $true
         Obfuscate = $false
