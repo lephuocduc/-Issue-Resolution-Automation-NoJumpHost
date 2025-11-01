@@ -32,13 +32,18 @@ Add-Type -AssemblyName System.Drawing
 
 # Import the Get-BitwardenAuthentication module
 Import-Module -Name $PSScriptRoot\Get-BitwardenAuthentication.psm1 -Force
-Join-Path $PSScriptRoot "..\Modules\"
 
-Get-ChildItem -Path (Join-Path $PSScriptRoot "..\Modules") -Filter *.ps1 | ForEach-Object {
-    Import-Module -Name $_.FullName -Force
-    Join-Path $PSScriptRoot "..\Modules\$($_.Name)"
-    Write-Host "Imported module: $($_.Name)"
-}
+# Join the Modules directory path relative to the current script location
+$modulesPath = Join-Path $PSScriptRoot "..\Modules"
+
+# Get all PS1 files in the Modules directory
+$ps1Files = Get-ChildItem -Path $modulesPath -Filter *.ps1
+
+# If you want to join the path with each PS1 filename (full path)
+$fullPaths = $ps1Files | ForEach-Object { Join-Path $modulesPath $_.Name }
+
+# Output the list of full paths
+$fullPaths
 
 $modulesToImport = @(
     "$PSScriptRoot\..\Modules\Get-Session.ps1",
