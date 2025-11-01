@@ -3,12 +3,6 @@ Param(
     [System.Management.Automation.PSCredential]$ADM_Credential
 )
 
-# Dynamically load all modules from the Modules directory
-$modulesPath = Join-Path $PSScriptRoot "..\..\Modules"
-Get-ChildItem -Path $modulesPath -Filter *.ps1 | ForEach-Object {
-    . (Join-Path $PSScriptRoot "..\..\Modules\$($_.Name)")
-}
-<#
 . (Join-Path $PSScriptRoot "..\..\Modules\Get-Session.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Get-DiskSpaceDetails.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Export-DiskReport.ps1")
@@ -20,7 +14,7 @@ Get-ChildItem -Path $modulesPath -Filter *.ps1 | ForEach-Object {
 . (Join-Path $PSScriptRoot "..\..\Modules\Test-ServerAvailability.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Write-Log.ps1")
 . (Join-Path $PSScriptRoot "..\..\Modules\Write-WindowsEventLog.ps1")
-#>
+
 
 # Get current user
 $CurrentUser = ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)
