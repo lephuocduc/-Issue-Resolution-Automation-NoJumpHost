@@ -30,25 +30,31 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+$modulesToImport = @(
+    "$PSScriptRoot\..\Modules\Get-Session.ps1",
+    "$PSScriptRoot\..\Modules\Get-DiskSpaceDetails.ps1",
+    "$PSScriptRoot\..\Modules\Export-DiskReport.ps1",
+    "$PSScriptRoot\..\Modules\Get-TopItems.ps1",
+    "$PSScriptRoot\..\Modules\Clear-SystemCache.ps1",
+    "$PSScriptRoot\..\Modules\Compress-IISLogs.ps1",
+    "$PSScriptRoot\..\Modules\Test-DiskAvailability.ps1",
+    "$PSScriptRoot\..\Modules\Test-ReportFileCreation.ps1",
+    "$PSScriptRoot\..\Modules\Test-ServerAvailability.ps1",
+    "$PSScriptRoot\..\Modules\Write-Log.ps1",
+    "$PSScriptRoot\..\Modules\Write-WindowsEventLog.ps1"
+)
 
-. (Join-Path $PSScriptRoot "..\Modules\Write-Log.ps1")
-
-if (Test-Path -Path "$PSScriptRoot\..\Modules\Write-Log.ps1") {
-    [System.Windows.Forms.MessageBox]::Show(
-            "Information: Found the file",
-            "Information",
-            [System.Windows.Forms.MessageBoxButtons]::OK,
-            [System.Windows.Forms.MessageBoxIcon]::Information
-        )
-        throw "Found the file Modules\Write-Log.ps1"
-}else{
-    [System.Windows.Forms.MessageBox]::Show(
-            "Error: Could not find the file Modules\Write-Log.ps1",
-            "Error",
-            [System.Windows.Forms.MessageBoxButtons]::OK,
-            [System.Windows.Forms.MessageBoxIcon]::Error
-        )
-    throw "Could not find the file Modules\Write-Log.ps1"
+foreach ($modulePath in $modulesToImport) {
+    try {
+        # Use dot-sourcing. This is compatible with the packager.
+        . $modulePath
+        
+        Write-Host "Successfully imported module $([System.IO.Path]::GetFileName($modulePath))" -ForegroundColor Green
+    } catch {
+        Write-Host "Error importing module $modulePath : $_" -ForegroundColor Red
+        [System.Windows.Forms.MessageBox]::Show("Error importing module $([System.IO.Path]::GetFileNameWithoutExtension($modulePath)) : $_", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
+        exit 1
+    }
 }
 
 # Import the Get-BitwardenAuthentication module
